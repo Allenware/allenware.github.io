@@ -83,7 +83,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="markdown," />
+  <meta name="keywords" content="http," />
 
 
 
@@ -99,32 +99,25 @@
 
 
 
-<meta name="description" content="why write this blog之前只有在用一些笔记软件的时候偶尔接触过markdown这个东西，只知道是一种轻型的标记语言。现在工作还有各方面的需要，必须抽出一些时间系统的学习一下markdown。当然并不研究markdown的渲染原理，只学习用法。
+<meta name="description" content="HeadersHTTP协议的Header总共分为三种，分别是General Headers、Entity Headers、Request/Response Headers 。目前最新的是基于HTTP/1.1的RFC2616，总共规定了47种头部字段。
 [TOC]
-Markdown简介wiki上的介绍
-
-Markdown is a lightweight markup language wi">
+General Headers我把被Request和Response共享的Headers成为General Headers，具体有：
+1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="为什么不用Markdown写设计文档?">
-<meta property="og:url" content="http://yoursite.com/2017/04/03/为什么不用Markdown写设计文档/index.html">
+<meta property="og:title" content="http消息">
+<meta property="og:url" content="http://yoursite.com/2017/04/09/http消息/index.html">
 <meta property="og:site_name" content="Allenware的博客">
-<meta property="og:description" content="why write this blog之前只有在用一些笔记软件的时候偶尔接触过markdown这个东西，只知道是一种轻型的标记语言。现在工作还有各方面的需要，必须抽出一些时间系统的学习一下markdown。当然并不研究markdown的渲染原理，只学习用法。
+<meta property="og:description" content="HeadersHTTP协议的Header总共分为三种，分别是General Headers、Entity Headers、Request/Response Headers 。目前最新的是基于HTTP/1.1的RFC2616，总共规定了47种头部字段。
 [TOC]
-Markdown简介wiki上的介绍
-
-Markdown is a lightweight markup language wi">
-<meta property="og:image" content="https://ooo.0o0.ooo/2017/04/03/58e23bb78b903.png">
-<meta property="og:image" content="https://ooo.0o0.ooo/2017/04/03/58e23d6c96d5d.png">
-<meta property="og:image" content="https://ooo.0o0.ooo/2017/04/03/58e23d6ce3792.png">
-<meta property="og:updated_time" content="2017-04-03T13:26:35.922Z">
+General Headers我把被Request和Response共享的Headers成为General Headers，具体有：
+1">
+<meta property="og:updated_time" content="2017-04-09T10:42:48.050Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="为什么不用Markdown写设计文档?">
-<meta name="twitter:description" content="why write this blog之前只有在用一些笔记软件的时候偶尔接触过markdown这个东西，只知道是一种轻型的标记语言。现在工作还有各方面的需要，必须抽出一些时间系统的学习一下markdown。当然并不研究markdown的渲染原理，只学习用法。
+<meta name="twitter:title" content="http消息">
+<meta name="twitter:description" content="HeadersHTTP协议的Header总共分为三种，分别是General Headers、Entity Headers、Request/Response Headers 。目前最新的是基于HTTP/1.1的RFC2616，总共规定了47种头部字段。
 [TOC]
-Markdown简介wiki上的介绍
-
-Markdown is a lightweight markup language wi">
-<meta name="twitter:image" content="https://ooo.0o0.ooo/2017/04/03/58e23bb78b903.png">
+General Headers我把被Request和Response共享的Headers成为General Headers，具体有：
+1">
 
 
 
@@ -152,13 +145,13 @@ Markdown is a lightweight markup language wi">
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/04/03/为什么不用Markdown写设计文档/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/09/http消息/"/>
 
 
 
 
 
-  <title> 为什么不用Markdown写设计文档? | Allenware的博客 </title>
+  <title> http消息 | Allenware的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -331,7 +324,7 @@ Markdown is a lightweight markup language wi">
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/03/为什么不用Markdown写设计文档/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/09/http消息/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rui Pan">
@@ -352,7 +345,7 @@ Markdown is a lightweight markup language wi">
             
             
               
-                为什么不用Markdown写设计文档?
+                http消息
               
             
           </h1>
@@ -367,8 +360,8 @@ Markdown is a lightweight markup language wi">
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-03T15:02:35+08:00">
-                2017-04-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-09T18:40:43+08:00">
+                2017-04-09
               </time>
             
 
@@ -390,8 +383,8 @@ Markdown is a lightweight markup language wi">
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tools/" itemprop="url" rel="index">
-                    <span itemprop="name">tools</span>
+                  <a href="/categories/protocol/" itemprop="url" rel="index">
+                    <span itemprop="name">protocol</span>
                   </a>
                 </span>
 
@@ -408,9 +401,9 @@ Markdown is a lightweight markup language wi">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/04/03/为什么不用Markdown写设计文档/#comments" itemprop="discussionUrl">
+                <a href="/2017/04/09/http消息/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/04/03/为什么不用Markdown写设计文档/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/04/09/http消息/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -441,128 +434,77 @@ Markdown is a lightweight markup language wi">
       
 
       
-        <h2 id="why-write-this-blog"><a href="#why-write-this-blog" class="headerlink" title="why write this blog"></a>why write this blog</h2><p>之前只有在用一些笔记软件的时候偶尔接触过markdown这个东西，只知道是一种轻型的标记语言。现在工作还有各方面的需要，必须抽出一些时间系统的学习一下markdown。当然并不研究markdown的渲染原理，只学习用法。</p>
+        <h2 id="Headers"><a href="#Headers" class="headerlink" title="Headers"></a>Headers</h2><p>HTTP协议的<strong>Header</strong>总共分为三种，分别是<code>General Headers</code>、<code>Entity Headers</code>、<code>Request/Response Headers</code> 。目前最新的是基于HTTP/1.1的<a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html" target="_blank" rel="external"><strong>RFC2616</strong></a>，总共规定了47种头部字段。</p>
 <p>[TOC]</p>
-<h2 id="Markdown简介"><a href="#Markdown简介" class="headerlink" title="Markdown简介"></a>Markdown简介</h2><p>wiki上的介绍</p>
-<blockquote>
-<p><strong>Markdown</strong> is a <a href="https://en.wikipedia.org/wiki/Lightweight_markup_language" target="_blank" rel="external">lightweight markup language</a> with plain text formatting syntax. It’s designed so that it can be converted to <a href="https://en.wikipedia.org/wiki/HTML" target="_blank" rel="external">HTML</a> and many other formats using a tool by the same name.</p>
-</blockquote>
-<p>这么看，markdown的设计初衷肯定不是面向码农了，受众应该是经常写文档，写邮件的办公室一族了。</p>
-<p><strong>Markdown</strong>提供一套规定的语法，让写出的文档经过markdown processer的处理，转化为html，从而格式化你的.md文件。</p>
-<p>当然，到了现在，<strong>Markdown</strong>的使用范围和影响已经渗透到各个行业，许多人日常的工作经常需要和它打交道。Github天生对md文件的支持，国内博客如简书也流行起markdown的方式来写博客。而抽出一小时左右的时间就能学会并使用它，还是非常值得，希望这篇blog会对你们有所帮助。</p>
-<h2 id="Editor"><a href="#Editor" class="headerlink" title="Editor"></a>Editor</h2><p>工欲善其事，必先利其器。这里我推荐<a href="https://www.typora.io/" target="_blank" rel="external"><strong>typero</strong></a></p>
-<p>下面是我写这篇博客时的截图</p>
-<p><img src="https://ooo.0o0.ooo/2017/04/03/58e23bb78b903.png" alt="typero"></p>
+<h3 id="General-Headers"><a href="#General-Headers" class="headerlink" title="General Headers"></a>General Headers</h3><p>我把被Request和Response共享的Headers成为General Headers，具体有：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">general-header = Cache-Control           </div><div class="line">               | Connection       </div><div class="line">               | Date             </div><div class="line">               | Pragma           </div><div class="line">               | Trailer          </div><div class="line">               | Transfer-Encoding</div><div class="line">               | Upgrade          </div><div class="line">               | Via              </div><div class="line">               | Warning</div></pre></td></tr></table></figure>
 <ul>
-<li><p>功能齐备</p>
+<li><p>Cache -Control 指定请求和响应遵循的缓存机制，单向work</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Cache-Control:Public   	可以被任何缓存所缓存</div><div class="line"></div><div class="line">Cache-Control:Private   内容只缓存到私有缓存中</div><div class="line"></div><div class="line">Cache-Control:no-cache 	所有内容都不会被缓存</div></pre></td></tr></table></figure>
 </li>
-<li><p>mac/windows的跨平台支持</p>
+<li><p>Connection 允许客户端和服务器指定与请求/响应连接有关的选项，keep-alive或者close</p>
 </li>
-<li><p>界面清爽，cold style</p>
+<li><p>Date 提供日期和时间标志,说明报文是什么时间创建的</p>
 </li>
-<li><p>markdown的语法建和快捷键的绑定</p>
+<li><p>Pragma 头域用来包含实现特定的指令，最常用的是Pragma:no-cache，和 <code>Cache-Control：no-cache</code> 作用相同。用于Http/1.1之前的版本还没有实现 <code>Cache-Control</code> 字段</p>
+</li>
+<li><p>Trailer 如果报文采用了分块传输编码(chunked transfer encoding) 方式,就可以用这个首部列出位于报文拖挂(trailer)部分的首部集合</p>
+</li>
+<li><p>Transfer-Encoding 告知接收端为了保证报文的可靠传输,对报文采用了什么编码方式</p>
+</li>
+<li><p>Upgrade 给出了发送端可能想要”升级”使用的新版本和协议</p>
+</li>
+<li><p>Via 显示了报文经过的中间节点(代理,网嘎un)</p>
 </li>
 </ul>
-<p>准备好之后，开始markdown的学习。</p>
-<h2 id="区块元素"><a href="#区块元素" class="headerlink" title="区块元素"></a>区块元素</h2><h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><p>标题用 <code>#</code> 来提示markdown引出标题，一共有六级标题，字体从大到小。合理的在一篇文章中使用标题，可以通过 <code>[toc]</code> 自动生成目录，而且让你的文章层次更加清楚。</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="section"># header1</span></div><div class="line"><span class="section">## header2</span></div><div class="line">...</div><div class="line"><span class="section">####### header6</span></div></pre></td></tr></table></figure>
-<p>header效果：</p>
-<p><img src="https://ooo.0o0.ooo/2017/04/03/58e23d6c96d5d.png" alt="header"></p>
-<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p>使用 <code>&gt;</code> 符号，引用的范围很广，通用解释、官方定义、他人专利都推荐用引用格式。</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="quote">&gt; 输入引用的内容</span></div></pre></td></tr></table></figure>
-<p>blockquotes效果：</p>
-<p><img src="https://ooo.0o0.ooo/2017/04/03/58e23d6ce3792.png" alt="blockquotes"></p>
-<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><h4 id="un-orded-list"><a href="#un-orded-list" class="headerlink" title="un-orded list"></a><em>un-orded list</em></h4><p>使用 <code>-</code> 来创建无序列表，<code>+</code> <code>*</code> 具有相同的作用。</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="section">## programming language</span></div><div class="line"><span class="bullet">- </span>c++</div><div class="line"><span class="bullet">- </span>pyhton</div><div class="line"><span class="bullet">- </span>go</div><div class="line"><span class="bullet">- </span>java</div></pre></td></tr></table></figure>
-<h4 id="orded-list"><a href="#orded-list" class="headerlink" title="orded list"></a><em>orded list</em></h4><p>有序列表，使用 <code>1. item1</code> 来创建，可以不按顺序，markdown语法解析器会自动识别</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="section">## popular</span></div><div class="line"><span class="bullet">1. </span>javascipt</div><div class="line"><span class="bullet">2. </span>pyhthon </div><div class="line"><span class="bullet">3. </span>java</div></pre></td></tr></table></figure>
-<h4 id="task-list"><a href="#task-list" class="headerlink" title="task list"></a><em>task list</em></h4><p>也就是html中的复选框，使用 <code>- []</code> 来创建，默认不选中，<code>- [x]</code> 为默认选中的复选框</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="bullet">- </span>[] option1</div><div class="line"><span class="bullet">- </span>[] option2</div><div class="line"><span class="bullet">- </span>[x] options</div></pre></td></tr></table></figure>
-<p>效果如下：</p>
+<h3 id="Entity-Headers"><a href="#Entity-Headers" class="headerlink" title="Entity Headers"></a>Entity Headers</h3><p>EntityHeaders主要用来描述消息体（message body）的一些元信息，具体有：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">entity-header  = Allow                   </div><div class="line">               | Content-Encoding </div><div class="line">               | Content-Language 	</div><div class="line">               | Content-Length   </div><div class="line">               | Content-Location </div><div class="line">               | Content-MD5      </div><div class="line">               | Content-Range    </div><div class="line">               | Content-Type     </div><div class="line">               | Expires          </div><div class="line">               | Last-Modified</div></pre></td></tr></table></figure>
+<p>其中，以Content为前缀的Headers主要描述了消息体的结构、大小、编码等信息，Expires描述了Entity的过期时间，Last-Modified描述了消息的最后修改时间。</p>
 <ul>
-<li>[ ] option1</li>
-<li>[ ] option2</li>
+<li>Content-Length：消息的内容长度</li>
+<li>Content-Type：请求实体对应的MIME信息，application/x-www-form-urlencoded或者响应返回的MIME类型 Content-Type: text/html; charset=utf-8</li>
+<li>Expires：浏览器会在指定时间前都使用本地缓存</li>
+<li>Last-Modified：用于指示资源的最后修改时间</li>
+<li>Content-Encoding：服务端支持的返回内容压缩编码类型</li>
+<li>Content-Location：请求资源可替代的另一地址</li>
+<li>Content-Range：在整个返回体中本部分的字节位置</li>
+<li>Allow：允许的Method，只出现在状态码为405的响应消息中</li>
 </ul>
+<h3 id="Request-Headers"><a href="#Request-Headers" class="headerlink" title="Request Headers"></a>Request Headers</h3><p>在<code>Request-Line</code>后面紧跟着的就是<code>Headers</code>。我们在上面已经介绍了<code>General Headers</code>和<code>Entity Headers</code>，下面便是<code>Request Headers</code>定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">request-header = Accept                   </div><div class="line">               | Accept-Charset    </div><div class="line">               | Accept-Encoding   </div><div class="line">               | Accept-Language   </div><div class="line">               | Authorization     </div><div class="line">               | Expect            </div><div class="line">               | From              </div><div class="line">               | Host              </div><div class="line">               | If-Match          </div><div class="line">               | If-Modified-Since </div><div class="line">               | If-None-Match     </div><div class="line">               | If-Range          </div><div class="line">               | If-Unmodified-Since</div><div class="line">               | Max-Forwards       </div><div class="line">               | Proxy-Authorization</div><div class="line">               | Range              </div><div class="line">               | Referer            </div><div class="line">               | TE                 </div><div class="line">               | User-Agent</div><div class="line">               | Cookie</div></pre></td></tr></table></figure>
+<p><code>Request Headers</code> 扮演的角色其实就是一个Request消息的调节器。需要注意的是若一个headers名称不在上面列表中，则默认当做<code>Entity Headers</code>的字段。在HTTP/1.1中，除了HOST字段，其他都是可选的。</p>
+<h4 id="前缀为-Accept-的headers"><a href="#前缀为-Accept-的headers" class="headerlink" title="前缀为 Accept 的headers"></a>前缀为 <em>Accept</em> 的headers</h4><p>定义了客户端可以接受的媒介类型、语言和字符集等</p>
 <ul>
-<li>[x] option3</li>
+<li>Acceppt：text/html  代表浏览器可以接受的类型为 text/html，如果服务器无法返回html文档，会返回406。一般浏览器可以处理任何类型 Accept：*/*</li>
+<li>Accept-Encoding： 浏览器申明自己接收的编码方法，通常指定压缩方法，是否支持压缩，支持什么压缩方法（compress，gzip）</li>
+<li>Accpet-Language：申明自己接收的语言</li>
+<li>Accept-Charset：申明接收的字符集，如utf-8</li>
 </ul>
-<h3 id="code-block"><a href="#code-block" class="headerlink" title="code block"></a>code block</h3><p>很多博客和笔记软件都支持加入代码块这个功能，可以保持代码的原貌。在<strong>typero</strong>中是使用 ` <figure class="highlight plain"><figcaption><span>来加入代码块，其他editor可能略有不同。</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">```python</div><div class="line">for a in list</div><div class="line">	func(a)</div></pre></td></tr></table></figure></p>
-<h3 id="links"><a href="#links" class="headerlink" title="links"></a>links</h3><p>markdown支持两种link方式，inline和reference。两种方式都是用 [ ] 来修饰需要链接的对象。</p>
+<h4 id="From-Host-Referer-和User-Agent"><a href="#From-Host-Referer-和User-Agent" class="headerlink" title="From, Host, Referer 和User-Agent"></a><strong>From</strong>, <strong>Host</strong>, Referer 和User-Agent</h4><p>详细定义了客户端 如何初始化Request</p>
 <ul>
-<li><p>inline links</p>
-<p>在需要链接的对象后面，用括号加上links即可。用符号表示就是 <code>[object]</code> 后面加上 <code>(links &quot;title&quot;)</code> title是可选项。如果链接访问的本地主机的资源，可以用相对路径代替url</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[<span class="string">Baidu</span>](<span class="link">http://baidu.com/ "baidu"</span>) is a famous company.</div><div class="line"></div><div class="line">See my [<span class="string">About</span>](<span class="link">/about/</span>) page for details.</div></pre></td></tr></table></figure>
-<p>效果：</p>
-<p><a href="http://baidu.com/" title="baidu" target="_blank" rel="external">Baidu</a> is a famous company.</p>
-<p>See my <a href="/about/">About</a> page for details.</p>
-</li>
-<li><p>reference links</p>
-<p>与inline不同的是，它不直接指明链接的地址。而是在 <code>[object]</code> 后面跟上一个 <code>[identifier]</code> ，然后在文件的合适地方，给<strong>identifier</strong>定义一个links，这样<strong>object</strong>就能通过唯一的<strong>identifier</strong>找到自己的links。如果 <code>[identifier]</code> 为空，则默认和 <code>[object]</code> 同名</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[<span class="string">Tencent</span>][<span class="symbol">qq</span>] has been the best internet company in Asia.</div><div class="line"></div><div class="line">[<span class="symbol">qq</span>]: <span class="link">http://allenware.github.io "Allenware"</span></div></pre></td></tr></table></figure>
-<p>效果：</p>
-<p><a href="http://allenware.github.io" title="Allenware" target="_blank" rel="external">Tencent</a> has been the best internet company in Asia.</p>
-</li>
+<li>User-Agent：告诉服务端，消息来源的OS和浏览器信息</li>
+<li>Referer：请求的上下文信息，即上一个网页的地址</li>
+<li>Host：必须的报文头字段，指定服务端的域名和端口号，通常从url解析</li>
+<li>From：发出请求用户的email</li>
+<li>Range：请求实体的一部分，指定范围 bytes=500-999</li>
 </ul>
-<h3 id="images"><a href="#images" class="headerlink" title="images"></a>images</h3><p>images的用法和links基本相似，只是加了一个 <code>!</code> 在前面</p>
-<p>inline式的语法如下：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">![<span class="string">Alt text</span>](<span class="link">/path/to/img.jpg</span>)</div><div class="line"></div><div class="line">![<span class="string">Alt text</span>](<span class="link">/path/to/img.jpg "Optional title"</span>)</div></pre></td></tr></table></figure>
-<p>reference式的语法如下：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">![<span class="string">Alt text</span>][<span class="symbol">id</span>]</div><div class="line"></div><div class="line">[<span class="symbol">id</span>]: <span class="link">url/to/image  "Optional title attribute"</span></div></pre></td></tr></table></figure>
-<h3 id="table"><a href="#table" class="headerlink" title="table"></a>table</h3><p>创建表格，使用<code>|header1|header2|...|headern|</code> 来创建n列的表格，自动生成表格之后可以调节表格大小。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">id</th>
-<th style="text-align:center">name</th>
-<th style="text-align:center">score</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">Allen</td>
-<td style="text-align:center">100</td>
-</tr>
-<tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">James</td>
-<td style="text-align:center">90</td>
-</tr>
-<tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">Victoria</td>
-<td style="text-align:center">95</td>
-</tr>
-</tbody>
-</table>
-<h3 id="Footnotes"><a href="#Footnotes" class="headerlink" title="Footnotes"></a>Footnotes</h3><p>创建脚注</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">You can create footnotes like this[^footnote].</div><div class="line"></div><div class="line">[<span class="symbol">^footnote</span>]: <span class="link">Here is the *text* of the **footnote**.</span></div></pre></td></tr></table></figure>
-<p>效果：</p>
-<p>You can create footnotes like this[^footnote].</p>
-<p>[^footnote]: Here is the <em>text</em> of the <strong>footnote</strong>.</p>
-<hr>
-<h2 id="TIPs"><a href="#TIPs" class="headerlink" title="TIPs"></a>TIPs</h2><ul>
-<li><p>需要注意markdown中有意义的符号，在写文章时可能会出现冲突，比如下面这个例子</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="bullet">1994. </span>the year i was born</div></pre></td></tr></table></figure>
-<p>我的目的只是将它作为普通语句输入，解释markdown的语法解析器会把它误认为列表的提示键，这种情况需要引入 <code>\</code> 转义符，正确用法如下</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">1994\. the year i was born</div></pre></td></tr></table></figure>
-</li>
-<li><p>强调语法，使用<code>**word**</code> 来加粗，<code>*word*</code> 使字体变斜</p>
-<p><code>_</code> 和 <code>*</code> 是同样的作用</p>
-</li>
-<li><p>TOC 用法，使用 <code>[toc]</code> 来生成目录，前面已介绍</p>
-</li>
-<li><p>下划线，可以使用下面的符号生成</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="section">---</span></div><div class="line">------</div><div class="line"><span class="emphasis">***</span></div><div class="line"><span class="strong">*****</span>*</div></pre></td></tr></table></figure>
-</li>
-<li><p>简短的代码引用可以用<code>code</code>就可以，比如 <code>printf</code> 是输出语句</p>
-</li>
-<li><p>插入image稍微麻烦一些，本地图片很方便，其他的可以用七牛云图片存储。</p>
-</li>
-<li><p><code>:smile</code> <code>:happy:</code> 可以输入emoji</p>
-<p>​比如：:open_hands: :clap: :haha:</p>
-<p>​</p>
-</li>
+<h4 id="前缀为-If-的headers"><a href="#前缀为-If-的headers" class="headerlink" title="前缀为 If 的headers"></a>前缀为 <em>If</em> 的headers</h4><p>规定了服务器只能返回符合这些描述的资源，若不符合, 则会返回<code>304 Not Modified</code>。</p>
+<ul>
+<li><code>If-Modified-Since</code> ：带上浏览器缓存页面的最后修改时间，Server端会对比实际文件的最后修改时间（Response消息的Last-Modified字段），一样则返回304，有修改返回200 OK和文件内容。客户端丢弃旧内容，缓存新内容。</li>
+<li><code>If-None-Match</code> ：和Etag一起work，Client端再次请求同个资源时，带上上次Server端Response消息的Etag字段到If-None_Match中</li>
+</ul>
+<p>若<code>Request-Line</code>中的<code>Method</code>为<code>GET</code>，请求中不包含消息体，若为<code>POST</code>，则会包含消息体。</p>
+<p>一个具体的Request消息实例：</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">GET</span> <span class="string">/articles/http-basics</span> HTTP/1.1</div><div class="line"><span class="attribute">Host</span>: www.articles.com</div><div class="line"><span class="attribute">Connection</span>: keep-alive</div><div class="line"><span class="attribute">Cache-Control</span>: no-cache</div><div class="line"><span class="attribute">Pragma</span>: no-cache</div><div class="line"><span class="attribute">Accept</span>: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</div></pre></td></tr></table></figure>
+<h3 id="Response-Headers"><a href="#Response-Headers" class="headerlink" title="Response Headers"></a>Response Headers</h3><p>下面是<code>response-header</code>的定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">response-header = Accept-Ranges</div><div class="line">                | Age</div><div class="line">                | ETag              </div><div class="line">                | Location          </div><div class="line">                | Proxy-Authenticate</div><div class="line">                | Retry-After       </div><div class="line">                | Server            </div><div class="line">                | Vary              </div><div class="line">                | WWW-Authenticate</div><div class="line">                | Set-Cookie</div></pre></td></tr></table></figure>
+<ul>
+<li>Age： 表示消息自server生成到现在的时长，单位是秒</li>
+<li>ETag： 是对Entity进行MD5 hash运算的值，用来检测更改</li>
+<li>Location： 被重定向的URL</li>
+<li>Server： 服务器标识</li>
+<li>Vary：告诉下有代理是使用缓存还是从原始服务器请求</li>
+<li>Set-Cookie：设置http Cookie</li>
 </ul>
 
       
@@ -614,7 +556,7 @@ Markdown is a lightweight markup language wi">
       
         <div class="post-tags">
           
-            <a href="/tags/markdown/" rel="tag"># markdown</a>
+            <a href="/tags/http/" rel="tag"># http</a>
           
         </div>
       
@@ -627,8 +569,8 @@ Markdown is a lightweight markup language wi">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/02/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2017/04/09/python-常用数据结构/" rel="next" title="python-常用数据结构">
+                <i class="fa fa-chevron-left"></i> python-常用数据结构
               </a>
             
           </div>
@@ -636,10 +578,6 @@ Markdown is a lightweight markup language wi">
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/04/08/http协议/" rel="prev" title="http协议">
-                http协议 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -795,7 +733,7 @@ Markdown is a lightweight markup language wi">
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#why-write-this-blog"><span class="nav-number">1.</span> <span class="nav-text">why write this blog</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Markdown简介"><span class="nav-number">2.</span> <span class="nav-text">Markdown简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Editor"><span class="nav-number">3.</span> <span class="nav-text">Editor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#区块元素"><span class="nav-number">4.</span> <span class="nav-text">区块元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#标题"><span class="nav-number">4.1.</span> <span class="nav-text">标题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">4.2.</span> <span class="nav-text">引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表"><span class="nav-number">4.3.</span> <span class="nav-text">列表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#un-orded-list"><span class="nav-number">4.3.1.</span> <span class="nav-text">un-orded list</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#orded-list"><span class="nav-number">4.3.2.</span> <span class="nav-text">orded list</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#task-list"><span class="nav-number">4.3.3.</span> <span class="nav-text">task list</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#code-block"><span class="nav-number">4.4.</span> <span class="nav-text">code block</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#links"><span class="nav-number">4.5.</span> <span class="nav-text">links</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#images"><span class="nav-number">4.6.</span> <span class="nav-text">images</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#table"><span class="nav-number">4.7.</span> <span class="nav-text">table</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Footnotes"><span class="nav-number">4.8.</span> <span class="nav-text">Footnotes</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TIPs"><span class="nav-number">5.</span> <span class="nav-text">TIPs</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Headers"><span class="nav-number">1.</span> <span class="nav-text">Headers</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#General-Headers"><span class="nav-number">1.1.</span> <span class="nav-text">General Headers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Entity-Headers"><span class="nav-number">1.2.</span> <span class="nav-text">Entity Headers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Request-Headers"><span class="nav-number">1.3.</span> <span class="nav-text">Request Headers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#前缀为-Accept-的headers"><span class="nav-number">1.3.1.</span> <span class="nav-text">前缀为 Accept 的headers</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#From-Host-Referer-和User-Agent"><span class="nav-number">1.3.2.</span> <span class="nav-text">From, Host, Referer 和User-Agent</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#前缀为-If-的headers"><span class="nav-number">1.3.3.</span> <span class="nav-text">前缀为 If 的headers</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Response-Headers"><span class="nav-number">1.4.</span> <span class="nav-text">Response Headers</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -952,9 +890,9 @@ Markdown is a lightweight markup language wi">
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2017/04/03/为什么不用Markdown写设计文档/';
-          this.page.identifier = '2017/04/03/为什么不用Markdown写设计文档/';
-          this.page.title = '为什么不用Markdown写设计文档?';
+          this.page.url = 'http://yoursite.com/2017/04/09/http消息/';
+          this.page.identifier = '2017/04/09/http消息/';
+          this.page.title = 'http消息';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://Allen.disqus.com/embed.js';
