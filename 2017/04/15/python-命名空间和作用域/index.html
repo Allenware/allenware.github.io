@@ -1,0 +1,1062 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="[TOC]
+前言前段时间写脚本的时候，在调用函数的时候，一直在想在python中函数的参数是传值还是传引用？先看一下下面两个例子
+12345678a = 1def setvalue(arg):	arg = 100	print(arg)	setvalue(a)print(a)
+这个例子中，会发现最后打印出的 a 仍然是 1 ，看起来像是传值调用。再看另一个例子：12345678a = [1]def">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python-命名空间和作用域">
+<meta property="og:url" content="http://yoursite.com/2017/04/15/python-命名空间和作用域/index.html">
+<meta property="og:site_name" content="Allenware的博客">
+<meta property="og:description" content="[TOC]
+前言前段时间写脚本的时候，在调用函数的时候，一直在想在python中函数的参数是传值还是传引用？先看一下下面两个例子
+12345678a = 1def setvalue(arg):	arg = 100	print(arg)	setvalue(a)print(a)
+这个例子中，会发现最后打印出的 a 仍然是 1 ，看起来像是传值调用。再看另一个例子：12345678a = [1]def">
+<meta property="og:updated_time" content="2017-04-15T14:50:11.590Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python-命名空间和作用域">
+<meta name="twitter:description" content="[TOC]
+前言前段时间写脚本的时候，在调用函数的时候，一直在想在python中函数的参数是传值还是传引用？先看一下下面两个例子
+12345678a = 1def setvalue(arg):	arg = 100	print(arg)	setvalue(a)print(a)
+这个例子中，会发现最后打印出的 a 仍然是 1 ，看起来像是传值调用。再看另一个例子：12345678a = [1]def">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/04/15/python-命名空间和作用域/"/>
+
+
+
+
+
+  <title> python-命名空间和作用域 | Allenware的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Allenware的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/15/python-命名空间和作用域/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rui Pan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/16463934?v=3&u=4ecf61a583656437a453f9c530960c1bd792c2fe&s=400">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Allenware的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                python-命名空间和作用域
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-15T22:47:51+08:00">
+                2017-04-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/programming-language/" itemprop="url" rel="index">
+                    <span itemprop="name">programming language</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/15/python-命名空间和作用域/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/04/15/python-命名空间和作用域/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[TOC]</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前段时间写脚本的时候，在调用函数的时候，一直在想在python中函数的参数是传值还是传引用？先看一下下面两个例子</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">a = <span class="number">1</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">setvalue</span><span class="params">(arg)</span>:</span></div><div class="line">	arg = <span class="number">100</span></div><div class="line">	print(arg)</div><div class="line">	</div><div class="line">setvalue(a)</div><div class="line">print(a)</div></pre></td></tr></table></figure>
+<p>这个例子中，会发现最后打印出的 a 仍然是 1 ，看起来像是传值调用。再看另一个例子：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">a = [<span class="number">1</span>]</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">setvalue</span><span class="params">(arg)</span>:</span></div><div class="line">	arg[<span class="number">0</span>] = <span class="number">100</span></div><div class="line">	print(arg[<span class="number">0</span>])</div><div class="line"></div><div class="line">setvalue(a)</div><div class="line">print(a[<span class="number">0</span>])</div></pre></td></tr></table></figure></p>
+<p>这个例子的结果 a 中的数值已经修改成了 100，这样看又是传引用。熟悉C语言的可能在这里会说，这里传的是地址，所以修改有效。当然可以这么理解，但是在 python 中，对待变量与赋值需要换一个角度去理解。这也是我学python遇到的第一个难点，涉及到了python的<strong>namespace</strong>和<strong>scope</strong>，想要学好python是必须要弄懂的。</p>
+<h2 id="一切皆对象"><a href="#一切皆对象" class="headerlink" title="一切皆对象"></a>一切皆对象</h2><p><strong>python</strong> 最大的特点也是最核心的思想，以前就提到过就是： <em>一切皆对象</em> 。在说 <strong>namespace</strong> 和 <strong>scope</strong> 之前，先说一下python中给变量赋值的原理。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">a = <span class="number">1</span>	<span class="comment">#1</span></div><div class="line">a = <span class="number">2</span>	<span class="comment">#2</span></div><div class="line">b = a	<span class="comment">#3</span></div><div class="line"><span class="keyword">del</span> a	<span class="comment">#4</span></div></pre></td></tr></table></figure></p>
+<p>在 python 中，所有的int，string，list，dict，函数和类等等等等，我们都把它看成是一个<strong>对象</strong>。</p>
+<p>比如上面的 <strong>1</strong> 的意思，正确的理解是 <code>a</code> 引用了 <code>1</code> 这个对象或者将 <code>a</code> 绑定给了 <code>1</code> ，，而不是将 <code>1</code> 这个值赋给 <code>a</code> 。深入点说，就是 <code>1</code> 这个对象的所有属性包括值都只存在自身，<code>a</code> 只是在 <code>1</code> 上打了个标签，并没有将实际的数据拷贝到自身！你只是可以通过命名 <code>a</code> 能够访问到 <code>1</code> 这个对象的信息。而如果执行了上面语句 <code>4</code> ，含义就是在对象上删掉 <code>a</code> 这个标签，在通过 <code>a</code> 访问时就会报a命名未定义的错误。</p>
+<p>语句 <strong>2</strong> 会删除掉<code>a</code>在<code>1</code>上的标签，触发python的垃圾回收机制，然后语句 <strong>3</strong> 会将 <code>b</code> 也绑定到<code>2</code>这个对象上。</p>
+<p>再回到最先的例子中，用刚谈到的对象概念去重新理解。例子1中，在调用函数 <code>setvalue</code> 时，只是将参数 <code>arg</code> 也绑定到 <code>a</code> 所引用的对象 <code>1</code>，但是在 <code>setvalue</code> 函数中，删除掉了 <code>arg</code> 在对象 <code>1</code> 上的标签，重新绑定到了对象 <code>100</code> 上，对 <code>a</code> 是没有影响的。<br>在例子2中，<code>arg</code> 也绑定到  <code>[0]</code> 这个列表对象上。函数中的操作仍然是对 <code>a[0]</code> 这个对象的操作，所以结果肯定是同时影响到已经绑定到 <code>a[0]</code> 上的所有变量的。</p>
+<p>最后回到开始的问题，到底是传值还是传引用呢？其实都不是，python中可以理解为传对象。</p>
+<h2 id="Consider"><a href="#Consider" class="headerlink" title="Consider"></a>Consider</h2><p>消化完上面的内容之后，再看一个例子<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">a = <span class="number">1</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">setvalue</span><span class="params">()</span>:</span></div><div class="line">	a = <span class="number">100</span></div><div class="line">	</div><div class="line">setvalue()</div><div class="line">print(a)</div></pre></td></tr></table></figure></p>
+<p>简单的加一句声明之后<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">a = <span class="number">1</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">setvalue</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">global</span> a</div><div class="line">	a = <span class="number">100</span></div><div class="line">	</div><div class="line">setvalue()</div><div class="line">print(a)</div></pre></td></tr></table></figure></p>
+<p>简单的解释一下，因为在第一个例子中，函数中的 <code>a</code> 是局部变量，作用域只在函数内，所以不影响函数外的命名空间。第二个例子中，使用了 <code>global</code> 关键字，作用是将函数内对 <code>a</code> 的操作影响扩展到全局，所以函数外的结果收到了影响。</p>
+<h2 id="Namespace"><a href="#Namespace" class="headerlink" title="Namespace"></a>Namespace</h2><h3 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h3><p>命名空间的定义：变量到对象的映射集合。一般都是通过字典来实现的。主要可以分为三类：</p>
+<ul>
+<li>内置命名空间</li>
+<li>函数的本地命名空间</li>
+<li>模块的全局命名空间</li>
+</ul>
+<p>对于模块的全局命名空间，因为有着模块名的前缀，所以互相是没有影响的。比如模块A和B都有c变量，那么通过A.c和B.c来使用是不冲突的。这三种命名空间也有着自己的生存周期，除了第二个函数的本地命名空间生存周期只在函数的调用开始到结束，其他两个的生存周期都是可以看做持续到解释器退出的。</p>
+<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>命名空间的作用：程序在直接访问变量时，会在当前的命名空间内查找。</p>
+<p>比如：你在程序内执行 <code>x = A</code> 时，就会在当前的命名空间增加x到A的映射。如果使用del x 会删除掉命名空间中x的命名。</p>
+<p>这里稍微拓展一下，import导入模块的本质，就是将其他模块的类、函数、变量等对象加入到程序的命名空间。再谈的深一点，<strong>python</strong> 中类的继承也是通过命名空间来实现的！这个下次笔记再说。。跑偏了</p>
+<h2 id="Scope"><a href="#Scope" class="headerlink" title="Scope"></a>Scope</h2><p>作用域 就是一个 Python 程序可以直接访问命名空间的正文区域。也可以理解是多种层级命名空间的叠加作用。在一个python程序中，直接访问一个变量，会从内到外依次访问所有的作用域直到找到，否则会报未定义的错误。可以具体分为以下四个作用域：</p>
+<ul>
+<li>Local(innermost)<br>包含局部变量，比如一个函数/方法内部。</li>
+<li>Enclosing<br>包含了非局部(non-local)也非全局(non-global)的变量。比如两个嵌套函数，内层函数可能搜索外层函数的namespace，但该namespace对内层函数而言既非局部也非全局。 </li>
+<li>Global(next-to-last)<br>当前脚本的最外层，比如当前模块的全局变量。 </li>
+<li>Built-in(outtermost)<br>Python <strong>builtin</strong> 模块。包含了内建的变量/关键字等。 </li>
+</ul>
+<p>一个命名的作用域在它初次定义的时候确定，如果在当前作用域找不到命名时，会到外层作用域中寻找相应的命名，最后回到全局作用域和内置作用域中寻找。也就是按照LEGB的顺序来寻找一个命名对应的对象。</p>
+<p>概念很抽象，具体来看代码</p>
+<ol>
+<li>作用域如何生效的例子：<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></div><div class="line">	b = <span class="number">200</span></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">test2</span><span class="params">()</span>:</span></div><div class="line">		b = <span class="number">100</span></div><div class="line">		print(b)</div><div class="line">	test2()</div><div class="line">	print(b)</div><div class="line"></div><div class="line">b = <span class="number">300</span></div><div class="line">print(b)</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>函数 <code>test2()</code> 中访问b时，在本地作用域率先找到 <code>b=100</code> 这条语句，所以由100这个对象起作用。在 <code>test()</code> 中，它的本地作用域中b的引用为200，不会去 <code>test2()</code> 中去搜索。如果删除掉 <code>test2()</code> 中 <code>b=100</code>的语句，那么test2函数调用时，在本地作用域找不到b的引用，会向上级enclosing作用域寻找，成功找到b的引用200，所以200在test2函数中生效！</p>
+<ol>
+<li>作用域在定义时生效：<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></div><div class="line">	<span class="keyword">print</span> a</div><div class="line">	a = <span class="number">100</span></div><div class="line"></div><div class="line">a = <span class="number">200</span></div><div class="line">test()</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这个例子会报错，因为在 <code>test()</code> 函数中，因为本地作用域有命名a的引用操作，所以 <code>print a</code> 会优先使用本地作用域的命名。但是定义在使用之后，所以会报错。</p>
+<blockquote>
+<p>事实上，所有引入新命名的操作都作用于局部作用域。</p>
+</blockquote>
+<p>官方文档这句话的意思，这里的局部作用域要以相对角度去理解。</p>
+<h3 id="global、nonlocal"><a href="#global、nonlocal" class="headerlink" title="global、nonlocal"></a>global、nonlocal</h3><p>通过 <code>global</code> 和 <code>nonlocal</code> 两个关键字，可以将内层的变量引入到全局作用域。终于讲到了之前那个例子，弄懂了命名空间和作用域的基础上，就能很简单的理解那个例子了。</p>
+<p>看具体的例子：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">scope_test</span><span class="params">()</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_local</span><span class="params">()</span>:</span></div><div class="line">        spam = <span class="string">"local spam"</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_nonlocal</span><span class="params">()</span>:</span></div><div class="line">        <span class="keyword">nonlocal</span> spam</div><div class="line">        spam = <span class="string">"nonlocal spam"</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">do_global</span><span class="params">()</span>:</span></div><div class="line">        <span class="keyword">global</span> spam</div><div class="line">        spam = <span class="string">"global spam"</span></div><div class="line">    spam = <span class="string">"test spam"</span></div><div class="line">    do_local()</div><div class="line">    print(<span class="string">"After local assignment:"</span>, spam)</div><div class="line">    do_nonlocal()</div><div class="line">    print(<span class="string">"After nonlocal assignment:"</span>, spam)</div><div class="line">    do_global()</div><div class="line">    print(<span class="string">"After global assignment:"</span>, spam)</div><div class="line"></div><div class="line">scope_test()</div><div class="line">print(<span class="string">"In global scope:"</span>, spam)</div></pre></td></tr></table></figure></p>
+<p>输出是</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">After local assignment: test spam</div><div class="line">After <span class="keyword">nonlocal</span> assignment: <span class="keyword">nonlocal</span> spam</div><div class="line">After <span class="keyword">global</span> assignment: <span class="keyword">nonlocal</span> spam</div><div class="line">In <span class="keyword">global</span> scope: <span class="keyword">global</span> spam</div></pre></td></tr></table></figure>
+<p>需要注意的是，python2中并不支持 <code>nonlocal</code> 关键字来重新关联作用域。</p>
+<h2 id="Globals-Locals"><a href="#Globals-Locals" class="headerlink" title="Globals()    Locals()"></a>Globals()    Locals()</h2><p>这两个方法是关于返回作用域的函数，前者返回全局作用域。后者返回当前的本地作用域。用这两个函数可以帮助理解<strong>namespace</strong>和<strong>scope</strong>，直接贴上我写的一段代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!usr/bin/env python</span></div><div class="line"><span class="comment"># -*- encoding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">from</span> sys <span class="keyword">import</span> argv</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">test</span>:</span></div><div class="line">	<span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test2</span><span class="params">(arg1,arg2)</span>:</span></div><div class="line">	print(locals())</div><div class="line">	<span class="keyword">return</span> arg1 + arg2</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test3</span><span class="params">()</span>:</span></div><div class="line">	b = <span class="number">2</span></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">test4</span><span class="params">()</span>:</span></div><div class="line">		b = <span class="number">200</span></div><div class="line">		<span class="keyword">return</span> b</div><div class="line">	test4()</div><div class="line">	print(locals())</div><div class="line"></div><div class="line">a = <span class="number">1</span></div><div class="line">b = <span class="number">100</span></div><div class="line">test2(a,b)</div><div class="line">test3()</div><div class="line">print(globals())</div></pre></td></tr></table></figure></p>
+<p>输出结果：<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;'arg2': 100, 'arg1': 1&#125;</div><div class="line">&#123;'test4': &lt;function test3.&lt;locals&gt;.test4 at 0x02AB36A8&gt;, 'b': 2&#125;</div><div class="line">&#123;'<span class="strong">__name__</span>': '<span class="strong">__main__</span>', '<span class="strong">__doc__</span>': None, '<span class="strong">__package__</span>': None, '<span class="strong">__loader__</span>': &lt;_frozen_importlib_external.SourceFileLoader object at 0x00F1A310&gt;, '<span class="strong">__spec__</span>': None, '<span class="strong">__annotations__</span>': &#123;&#125;, '<span class="strong">__builtins__</span>': &lt;module 'builtins' (built-in)&gt;, '<span class="strong">__file__</span>': 'python.py', '<span class="strong">__cached__</span>': None, 'os': &lt;module 'os' from 'E:\\python\\lib\\os.py'&gt;, 'argv': ['python.py'], 'test': &lt;class '__main__.test'&gt;, 'test2': &lt;function test2 at 0x00EDD540&gt;, 'test3': &lt;function test3 at 0x02AB36F0&gt;, 'a': 1, 'b': 100&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>第一个字典记录的是<code>test2()</code>函数的本地作用域，可以看到只有两个参数的命名。</li>
+<li>第二个字典是<code>test3()</code>函数的本地作用域，有一个函数对象和一个命名。</li>
+<li>第三个是这个py文件的全局作用域信息，除了py文件中定义的函数、类、变量等，还有一些特殊变量<code>__name__</code> <code>__doc__</code> 内置模块 <code>__builtins__</code> 我们引入的 <code>os</code> 模块也是作为一个模块对象，但是不同的是通过 <code>form sys import argv</code> 来引入的 <code>argv</code> 已经和原模块脱离联系，我们已经在本py文件中重新拷贝了一份。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/wechat.jpg" alt="Rui Pan WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/alipay.jpg" alt="Rui Pan Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/15/python-语法/" rel="next" title="python-语法">
+                <i class="fa fa-chevron-left"></i> python-语法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://avatars3.githubusercontent.com/u/16463934?v=3&u=4ecf61a583656437a453f9c530960c1bd792c2fe&s=400"
+               alt="Rui Pan" />
+          <p class="site-author-name" itemprop="name">Rui Pan</p>
+           
+              <p class="site-description motion-element" itemprop="description">Hey,boy.Remember who you are.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Allenware" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/8fa993d66f71" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-edit"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一切皆对象"><span class="nav-number">2.</span> <span class="nav-text">一切皆对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Consider"><span class="nav-number">3.</span> <span class="nav-text">Consider</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Namespace"><span class="nav-number">4.</span> <span class="nav-text">Namespace</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Definition"><span class="nav-number">4.1.</span> <span class="nav-text">Definition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作用"><span class="nav-number">4.2.</span> <span class="nav-text">作用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scope"><span class="nav-number">5.</span> <span class="nav-text">Scope</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#global、nonlocal"><span class="nav-number">5.1.</span> <span class="nav-text">global、nonlocal</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Globals-Locals"><span class="nav-number">6.</span> <span class="nav-text">Globals()    Locals()</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rui Pan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://Allen.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/04/15/python-命名空间和作用域/';
+          this.page.identifier = '2017/04/15/python-命名空间和作用域/';
+          this.page.title = 'python-命名空间和作用域';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://Allen.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
