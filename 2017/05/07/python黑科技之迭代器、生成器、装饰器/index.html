@@ -1,0 +1,1073 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="概述可迭代对象、迭代器和生成器这三个概念很容易混淆，前两者通常不会区分的很明显，只是用法上有区别。生成器在某种概念下可以看做是特殊的迭代器，它比迭代实现上更加简洁。三者关系如图：
+可迭代对象 先说下上面三者的基础：可迭代对象（Iterable Object），简单的来理解就是可以使用 for 来循环遍历的对象。比如常见的 list、set和dict。可以用以下方法来测试对象是否是可迭代
+12345">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python黑科技之迭代器、生成器、装饰器">
+<meta property="og:url" content="http://yoursite.com/2017/05/07/python黑科技之迭代器、生成器、装饰器/index.html">
+<meta property="og:site_name" content="Allenware的博客">
+<meta property="og:description" content="概述可迭代对象、迭代器和生成器这三个概念很容易混淆，前两者通常不会区分的很明显，只是用法上有区别。生成器在某种概念下可以看做是特殊的迭代器，它比迭代实现上更加简洁。三者关系如图：
+可迭代对象 先说下上面三者的基础：可迭代对象（Iterable Object），简单的来理解就是可以使用 for 来循环遍历的对象。比如常见的 list、set和dict。可以用以下方法来测试对象是否是可迭代
+12345">
+<meta property="og:image" content="https://ooo.0o0.ooo/2017/05/06/590d99e937114.png">
+<meta property="og:image" content="https://ooo.0o0.ooo/2017/05/06/590da64a3bf68.png">
+<meta property="og:updated_time" content="2017-05-07T08:11:12.336Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python黑科技之迭代器、生成器、装饰器">
+<meta name="twitter:description" content="概述可迭代对象、迭代器和生成器这三个概念很容易混淆，前两者通常不会区分的很明显，只是用法上有区别。生成器在某种概念下可以看做是特殊的迭代器，它比迭代实现上更加简洁。三者关系如图：
+可迭代对象 先说下上面三者的基础：可迭代对象（Iterable Object），简单的来理解就是可以使用 for 来循环遍历的对象。比如常见的 list、set和dict。可以用以下方法来测试对象是否是可迭代
+12345">
+<meta name="twitter:image" content="https://ooo.0o0.ooo/2017/05/06/590d99e937114.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/07/python黑科技之迭代器、生成器、装饰器/"/>
+
+
+
+
+
+  <title> python黑科技之迭代器、生成器、装饰器 | Allenware的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Allenware的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/07/python黑科技之迭代器、生成器、装饰器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rui Pan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars3.githubusercontent.com/u/16463934?v=3&u=4ecf61a583656437a453f9c530960c1bd792c2fe&s=400">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Allenware的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                python黑科技之迭代器、生成器、装饰器
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-07T16:09:49+08:00">
+                2017-05-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/programming-langua/" itemprop="url" rel="index">
+                    <span itemprop="name">programming langua</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/07/python黑科技之迭代器、生成器、装饰器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/05/07/python黑科技之迭代器、生成器、装饰器/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>可迭代对象、迭代器和生成器这三个概念很容易混淆，前两者通常不会区分的很明显，只是用法上有区别。生成器在某种概念下可以看做是特殊的迭代器，它比迭代实现上更加简洁。三者关系如图：<img src="https://ooo.0o0.ooo/2017/05/06/590d99e937114.png" alt="Iterator,Generator"></p>
+<h2 id="可迭代对象"><a href="#可迭代对象" class="headerlink" title="可迭代对象"></a>可迭代对象</h2><p> 先说下上面三者的基础：可迭代对象（Iterable Object），简单的来理解就是可以使用 <code>for</code> 来循环遍历的对象。比如常见的 list、set和dict。可以用以下方法来测试对象是否是可迭代</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> collections <span class="keyword">import</span> Iterable</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>isinstance(<span class="string">'abc'</span>, Iterable) 	<span class="comment"># str是否可迭代</span></div><div class="line"><span class="keyword">True</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>isinstance([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], Iterable)   <span class="comment"># list是否可迭代</span></div><div class="line"><span class="keyword">True</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>isinstance(<span class="number">123</span>, Iterable) 	    <span class="comment"># 整数是否可迭代</span></div><div class="line"><span class="keyword">False</span></div></pre></td></tr></table></figure>
+<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><p>其实你对所有的可迭代对象调用 <code>dir()</code> 方法时，会发现他们都实现了 <code>__iter__</code> 方法。这样就可以通过 <code>iter(object)</code> 来返回一个迭代器。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; x = [1, 2, 3]</div><div class="line">&gt;&gt;&gt; y = iter(x)</div><div class="line">&gt;&gt;&gt; type(x)</div><div class="line">&lt;class 'list'&gt;</div><div class="line">&gt;&gt;&gt; type(y)</div><div class="line">&lt;class 'list_iterator'&gt;</div></pre></td></tr></table></figure>
+<p>可以看到调用 <code>iter()</code> 之后，变成了一个 <code>list_iterator</code> 的对象。会发现增加了 <code>__next__</code> 方法。所有实现了 <code>__iter__</code> 和 <code>__next__</code> 两个方法的对象，都是迭代器。</p>
+<p>迭代器是带状态的对象，它会记录当前迭代所在的位置，以方便下次迭代的时候获取正确的元素。<code>__iter__</code>返回迭代器自身，<code>__next__</code>返回容器中的下一个值，如果容器中没有更多元素了，则抛出StopIteration异常。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>x = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>y = iter(x)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>next(y)</div><div class="line"><span class="number">1</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>next(y)</div><div class="line"><span class="number">2</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>next(y)</div><div class="line"><span class="number">3</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>next(y)</div><div class="line">Traceback (most recent call last):</div><div class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</div><div class="line">StopIteration</div></pre></td></tr></table></figure>
+<p>具体的实现我没有深入研究。但是我大胆的猜测一下…联系操作系统中 <code>printf(fmt,...)</code> 的实现方式，其中是定义一个 <code>va_list</code> 来用于保存需要打印的 <code>...</code> 信息的。然后实现了<code>va_start()</code> <code>va_end()</code> <code>va_arg()</code> 三个方法来不停地迭代式的打印信息。感兴趣可以自己了解。</p>
+<p>那回到<code>Iterator</code> ，如何判断对象是否是迭代器，和判断是否是可迭代对象的方法差不多，只要把 <code>Iterable</code> 换成 <code>Iterator</code>。</p>
+<p>Python的<code>for</code>循环本质上就是通过不断调用<code>next()</code>函数实现的，举个栗子，下面的代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">x = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</div><div class="line"><span class="keyword">for</span> elem <span class="keyword">in</span> x:</div><div class="line">    ...</div></pre></td></tr></table></figure>
+<p>实际上执行时是</p>
+<p><img src="https://ooo.0o0.ooo/2017/05/06/590da64a3bf68.png" alt=""></p>
+<p>也就是先将可迭代对象转化为<code>Iterator</code>，再去迭代。应该是处于对内存的节省考虑。因为迭代器只有在你调用 <code>next()</code> 才会实际计算下一个值。</p>
+<p><code>itertools</code> 库提供了很多常见迭代器的使用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> itertools <span class="keyword">import</span> count		<span class="comment"># 计数器</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>counter = count(start=<span class="number">13</span>)</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>next(counter)</div><div class="line"><span class="number">13</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>next(counter)</div><div class="line"><span class="number">14</span></div></pre></td></tr></table></figure>
+<p>无限循环序列：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> itertools <span class="keyword">import</span> cycle</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>colors = cycle([<span class="string">'red'</span>, <span class="string">'white'</span>, <span class="string">'blue'</span>])</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>next(colors)</div><div class="line"><span class="string">'red'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>next(colors)</div><div class="line"><span class="string">'white'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>next(colors)</div><div class="line"><span class="string">'blue'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>next(colors)</div><div class="line"><span class="string">'red'</span></div></pre></td></tr></table></figure>
+<h2 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h2><p>生成器和装饰器是python中最吸引人的两个黑科技，生成器虽没有装饰器那么常用，但在某些针对的情境下十分有效。</p>
+<p>我们创建列表的时候，受到内存限制，容量肯定是有限的，而且不可能全部给他一次枚举出来。这里可以使用列表生成式，但是它有一个致命的缺点就是定义即生成，非常的浪费空间和效率。</p>
+<p>所以，如果列表元素可以按照某种算法推算出来，那我们可以在循环的过程中不断推算出后续的元素,这样就不必创建完整的list，从而节省大量的空间。在Python中，这种一边循环一边计算的机制，称为生成器：generator。</p>
+<p>要创建一个 <code>generator</code> ，最简单的方法是改造列表生成式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span>[x*x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">10</span>)]</div><div class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">16</span>, <span class="number">25</span>, <span class="number">36</span>, <span class="number">49</span>, <span class="number">64</span>, <span class="number">81</span>]</div><div class="line"></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>(x * x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">10</span>))</div><div class="line">&lt;generator object &lt;genexpr&gt; at <span class="number">0x03804630</span>&gt;</div></pre></td></tr></table></figure>
+<p>还有一个方法是生成器函数，同样是通过 <code>def</code> 定义，然后通过 <code>yield</code> 来支持迭代器协议，所以比迭代器写起来更简单。 </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;<span class="function"><span class="keyword">def</span> <span class="title">spam</span><span class="params">()</span>:</span></div><div class="line">	   <span class="keyword">yield</span><span class="string">"first"</span></div><div class="line">	   <span class="keyword">yield</span><span class="string">"second"</span></div><div class="line">	   <span class="keyword">yield</span><span class="string">"third"</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>spam</div><div class="line">&lt;function spam at <span class="number">0x011F32B0</span>&gt;</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>gen</div><div class="line">&lt;generator object spam at <span class="number">0x01220B20</span>&gt;</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>gen.next()</div><div class="line"><span class="string">'first'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>gen.next()</div><div class="line"><span class="string">'second'</span></div><div class="line"><span class="meta">&gt;&gt;&gt; </span>gen.next()</div><div class="line"><span class="string">'third'</span></div></pre></td></tr></table></figure>
+<p>当然一般都是通过for来使用的，这样不用关心<code>StopIteration</code>的异常</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;<span class="keyword">for</span> x <span class="keyword">in</span> spam():</div><div class="line">	   <span class="keyword">print</span> x</div><div class="line">        </div><div class="line">first</div><div class="line">second</div><div class="line">third</div></pre></td></tr></table></figure>
+<p>进行函数调用的时候，返回一个生成器对象。在使用 <code>next()</code> 调用的时候，遇到 yield 就返回，记录此时的函数调用位置，下次调用 <code>next()</code> 时，从断点处开始。</p>
+<p>的确有时候，迭代器和生成器很难区分，如文章开头所说，generator 是比 Iterator 更加简单的实现方式。官方文档有这么一句</p>
+<blockquote>
+<p>Python’s generators provide a convenient way to implement the iterator protocol.</p>
+</blockquote>
+<p>你完全可以像使用 <code>iterator</code> 一样使用 <code>generator</code> ，当然除了定义。定义一个<code>iterator</code>，你需要分别实现 <code>__iter__()</code> 方法和 <code>__next__()</code> 方法,但 <code>generator</code> 只需要一个小小的<code>yield</code> 。</p>
+<p>generator 还有 <code>send()</code> 和 <code>close()</code> 方法，都是只能在next()调用之后，生成器出去挂起状态时才能使用的。</p>
+<p>生成器在Python中是一个非常强大的编程结构，可以用更少地中间变量写流式代码，此外，相比其它容器对象它更能节省内存和CPU，当然它可以用更少的代码来实现相似的功能。现在就可以动手重构你的代码了，但凡看到类似：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">something</span><span class="params">()</span>:</span></div><div class="line">    result = []</div><div class="line">    <span class="keyword">for</span> ... <span class="keyword">in</span> ...:</div><div class="line">        result.append(x)</div><div class="line">    <span class="keyword">return</span> result</div></pre></td></tr></table></figure>
+<p>都可以用生成器函数来替换：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">iter_something</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">for</span> ... <span class="keyword">in</span> ...:</div><div class="line">        <span class="keyword">yield</span> x</div></pre></td></tr></table></figure>
+<p>提示：<code>python</code> 是支持协程的，也就是微线程，就是通过 <code>generator</code> 来实现的。配合 <code>generator</code> 我们可以自定义函数的调用层次关系从而自己来调度线程。</p>
+<h2 id="斐波那契数列"><a href="#斐波那契数列" class="headerlink" title="斐波那契数列"></a>斐波那契数列</h2><p>下面用 普通函数，迭代器和生成器来实现斐波那契数列，区分三种</p>
+<p>输出数列的前N个数</p>
+<h3 id="函数方法"><a href="#函数方法" class="headerlink" title="函数方法"></a>函数方法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fab</span><span class="params">(max)</span>:</span></div><div class="line">    n,a,b = <span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span></div><div class="line">    L = []</div><div class="line">    <span class="keyword">while</span> n &lt; max:</div><div class="line">        L.append(b)</div><div class="line">    	a,b = b,a+b</div><div class="line">        n += <span class="number">1</span></div><div class="line">    <span class="keyword">return</span> L</div></pre></td></tr></table></figure>
+<p>这个不多说</p>
+<h2 id="Iterator方法"><a href="#Iterator方法" class="headerlink" title="Iterator方法"></a>Iterator方法</h2><p>为了节省内存，和处于未知输出的考虑，使用迭代器来改善代码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">fab</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="string">'''</span></div><div class="line">    Iterator to produce Fibonacci</div><div class="line">    '''</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,max)</span>:</span></div><div class="line">        self.max = max</div><div class="line">        self.n = <span class="number">0</span></div><div class="line">        self.a = <span class="number">0</span></div><div class="line">        self.b = <span class="number">1</span></div><div class="line">        </div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> self</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__next__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">if</span> self.n &lt; self.max:</div><div class="line">            r = self.b</div><div class="line">            self.a,self.b = self.b,self.a + self.b</div><div class="line">            self.n += <span class="number">1</span></div><div class="line">            <span class="keyword">return</span> r</div><div class="line">        <span class="keyword">raise</span> StopIteration(<span class="string">'Done'</span>)</div></pre></td></tr></table></figure>
+<p>迭代器什么都好，就是写起来不简洁。所以用 <code>yield</code> 来改写第三版。</p>
+<h3 id="Generator"><a href="#Generator" class="headerlink" title="Generator"></a>Generator</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fab</span><span class="params">(max)</span>:</span></div><div class="line">    n,a,b = <span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span></div><div class="line">    <span class="keyword">while</span> n &lt; max:</div><div class="line">        <span class="keyword">yield</span> b</div><div class="line">        a,b = b,a+b</div><div class="line">        n += <span class="number">1</span></div></pre></td></tr></table></figure>
+<p>使用下面来输出</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> a <span class="keyword">in</span> fab(<span class="number">8</span>):</div><div class="line">    print(a)</div></pre></td></tr></table></figure>
+<p>看起来很简洁，而且有了迭代器的特性。</p>
+<hr>
+<h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><p>装饰器（Decorator）是python中最吸引人的特性，装饰器本质上还是一个函数，它可以让已有的函数不做任何改动的情况下增加功能。</p>
+<p>非常适合有切面需求的场景，比如权限校验，日志记录和性能测试等等。比如你想要执行某个函数前记录日志或者记录时间来统计性能，又不想改动这个函数，就可以通过装饰器来实现。</p>
+<p>不用装饰器，我们会这样来实现在函数执行前插入日志</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></div><div class="line">    print(<span class="string">'i am foo'</span>)</div><div class="line">    </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">()</span>:</span></div><div class="line">    print(<span class="string">'foo is running'</span>)</div><div class="line">    print(<span class="string">'i am foo'</span>)</div></pre></td></tr></table></figure>
+<p>虽然这样写是满足了需求，但是改动了原有的代码，如果有其他的函数也需要插入日志的话，就需要改写所有的函数，不能复用代码。可以这么写</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">use_logg</span><span class="params">(func)</span>:</span></div><div class="line">    logging.warn(<span class="string">"%s is running"</span> % func.__name__)</div><div class="line">    func()</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">()</span>:</span></div><div class="line">    print(<span class="string">'i am bar'</span>)</div><div class="line"></div><div class="line">use_log(bar)	<span class="comment">#将函数作为参数传入</span></div></pre></td></tr></table></figure>
+<p>这样写的确可以复用插入的日志，缺点就是显示的封装原来的函数，我们希望透明的做这件事。用装饰器来写</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">bar = use_log(bar)<span class="function"><span class="keyword">def</span> <span class="title">use_log</span><span class="params">(func)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args,**kwargs)</span>:</span></div><div class="line">        logging.warn(<span class="string">'%s is running'</span> % func.__name___)</div><div class="line">        <span class="keyword">return</span> func(*args,**kwargs)</div><div class="line">    <span class="keyword">return</span> wrapper</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">()</span>:</span></div><div class="line">    print(<span class="string">'I am bar'</span>)</div><div class="line">    </div><div class="line">bar = use_log(bar)</div><div class="line">bar()</div></pre></td></tr></table></figure>
+<p><code>use_log()</code> 就是装饰器，它把真正我们想要执行的函数 <code>bar()</code> 封装在里面，返回一个封装了加入代码的新函数，看起来就像是 <code>bar()</code> 被装饰了一样。这个例子中的切面就是函数进入的时候，在这个时候，我们插入了一句记录日志的代码。这样写还是不够透明，通过@语法糖来起到 <code>bar = use_log(bar)</code> 的作用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">bar = use_log(bar)<span class="function"><span class="keyword">def</span> <span class="title">use_log</span><span class="params">(func)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args,**kwargs)</span>:</span></div><div class="line">        logging.warn(<span class="string">'%s is running'</span> % func.__name___)</div><div class="line">        <span class="keyword">return</span> func(*args,**kwargs)</div><div class="line">    <span class="keyword">return</span> wrapper</div><div class="line"></div><div class="line"><span class="meta">@use_log</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">()</span>:</span></div><div class="line">    print(<span class="string">'I am bar'</span>)</div><div class="line">    </div><div class="line"><span class="meta">@use_log</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">haha</span><span class="params">()</span>:</span></div><div class="line">    print(<span class="string">'I am haha'</span>)</div><div class="line">    </div><div class="line">bar()</div><div class="line">haha()</div></pre></td></tr></table></figure>
+<p>这样看起来就很简洁，而且代码很容易复用。可以看成是一种智能的高级封装。</p>
+<p>装饰器也是可以带参数的，这位装饰器提供了更大的灵活性。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">use_log</span><span class="params">(level)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decorator</span><span class="params">(func)</span>:</span></div><div class="line">        <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">            <span class="keyword">if</span> level == <span class="string">"warn"</span>:</div><div class="line">                logging.warn(<span class="string">"%s is running"</span> % func.__name__)</div><div class="line">            <span class="keyword">return</span> func(*args)</div><div class="line">        <span class="keyword">return</span> wrapper</div><div class="line"></div><div class="line">    <span class="keyword">return</span> decorator</div><div class="line"></div><div class="line"><span class="meta">@use_log(level="warn")</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(name=<span class="string">'foo'</span>)</span>:</span></div><div class="line">    print(<span class="string">"i am %s"</span> % name)</div><div class="line"></div><div class="line">foo()</div></pre></td></tr></table></figure>
+<p>实际上是对装饰器的一个函数封装，并返回一个装饰器。这里涉及到作用域的概念，之前有一篇博客提到过。可以把它看成一个带参数的闭包。当使用 <code>@use_log(level=&#39;warn&#39;)</code> 时，会将 <code>level</code> 的值传给装饰器的环境中。它的效果相当于 <code>use_log(level=&#39;warn&#39;)(foo)</code> ，也就是一个三层的调用。</p>
+<p>这里有一个美中不足，<code>decorator</code> 不会改变装饰的函数的功能，但会悄悄的改变一个 <code>__name__</code> 的属性(还有其他一些元信息)，因为 <code>__name__</code> 是跟着函数命名走的。可以用 <code>@functools.wraps(func)</code> 来让装饰器仍然使用 <code>func</code> 的名字。比如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> functools</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">log</span><span class="params">(func)</span>:</span></div><div class="line"><span class="meta">    @functools.wraps(func)</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kw)</span>:</span></div><div class="line">        print(<span class="string">'call %s():'</span> % func.__name__)</div><div class="line">        <span class="keyword">return</span> func(*args, **kw)</div><div class="line">    <span class="keyword">return</span> wrapper</div></pre></td></tr></table></figure>
+<p>functools.wraps 也是一个装饰器，它将原函数的元信息拷贝到装饰器环境中，从而不会被所替换的新函数覆盖掉。</p>
+<p>有了装饰器，我们就可以剥离出大量与函数功能本身无关的代码，增加了代码的重用性。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/wechat.jpg" alt="Rui Pan WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/alipay.jpg" alt="Rui Pan Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/23/python-OOP进阶/" rel="next" title="python - OOP进阶">
+                <i class="fa fa-chevron-left"></i> python - OOP进阶
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://avatars3.githubusercontent.com/u/16463934?v=3&u=4ecf61a583656437a453f9c530960c1bd792c2fe&s=400"
+               alt="Rui Pan" />
+          <p class="site-author-name" itemprop="name">Rui Pan</p>
+           
+              <p class="site-description motion-element" itemprop="description">Hey,boy.Remember who you are.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Allenware" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/8fa993d66f71" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-edit"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可迭代对象"><span class="nav-number">2.</span> <span class="nav-text">可迭代对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迭代器"><span class="nav-number">3.</span> <span class="nav-text">迭代器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成器"><span class="nav-number">4.</span> <span class="nav-text">生成器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#斐波那契数列"><span class="nav-number">5.</span> <span class="nav-text">斐波那契数列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数方法"><span class="nav-number">5.1.</span> <span class="nav-text">函数方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterator方法"><span class="nav-number">6.</span> <span class="nav-text">Iterator方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Generator"><span class="nav-number">6.1.</span> <span class="nav-text">Generator</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#装饰器"><span class="nav-number">7.</span> <span class="nav-text">装饰器</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rui Pan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://Allen.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/05/07/python黑科技之迭代器、生成器、装饰器/';
+          this.page.identifier = '2017/05/07/python黑科技之迭代器、生成器、装饰器/';
+          this.page.title = 'python黑科技之迭代器、生成器、装饰器';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://Allen.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
